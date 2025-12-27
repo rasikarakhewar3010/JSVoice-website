@@ -11,10 +11,14 @@ export default function DocsLayout({
 }) {
     return (
         <DocsVoiceProvider>
-            <div className="flex min-h-screen bg-[#0A0A0A] pt-24">
+            <div className="flex min-h-screen bg-[#050505] pt-24 relative overflow-hidden">
+                {/* Ambient Backgrounds */}
+                <div className="fixed top-0 left-0 w-[500px] h-[500px] bg-[#CC5500]/5 blur-[120px] rounded-full pointer-events-none" />
+                <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-[#CC5500]/5 blur-[120px] rounded-full pointer-events-none" />
+
                 <DocsSidebar />
-                <main className="flex-1 w-full lg:max-w-[calc(100vw-16rem)] min-h-screen">
-                    <div className="max-w-4xl mx-auto px-4 py-8 lg:px-12 lg:py-12">
+                <main className="flex-1 w-full lg:max-w-[100vw] min-h-screen relative z-10 lg:pl-64 flex flex-col">
+                    <div className="max-w-4xl mx-auto px-4 py-8 lg:px-12 lg:py-12 flex-1 w-full">
                         {children}
                     </div>
                 </main>

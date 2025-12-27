@@ -19,7 +19,7 @@ export default function IntroductionPage() {
                 </p>
             </DocsSection>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <div className="grid md:grid-cols-3 gap-6 mb-16">
                 {[
                     {
                         icon: Mic,
@@ -37,10 +37,16 @@ export default function IntroductionPage() {
                         desc: "Extract variables from commands like 'Order {quantity} pizzas'."
                     }
                 ].map((feature, i) => (
-                    <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-[#CC5500]/50 transition-colors group">
-                        <feature.icon className="w-8 h-8 text-[#CC5500] mb-4 group-hover:scale-110 transition-transform" />
-                        <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                        <p className="text-sm text-gray-400 leading-relaxed">{feature.desc}</p>
+                    <div key={i} className="p-8 rounded-2xl bg-[#141414] border border-white/5 hover:border-[#CC5500]/30 transition-all duration-300 group hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#CC5500]/5 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#CC5500]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                        <div className="relative z-10">
+                            <div className="w-12 h-12 rounded-xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:border-[#CC5500]/30">
+                                <feature.icon className="w-6 h-6 text-[#CC5500]" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-3 tracking-tight">{feature.title}</h3>
+                            <p className="text-base text-gray-400 leading-relaxed font-light">{feature.desc}</p>
+                        </div>
                     </div>
                 ))}
             </div>

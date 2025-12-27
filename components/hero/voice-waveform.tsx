@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface VoiceWaveformProps {
     isListening?: boolean;
@@ -8,10 +8,11 @@ interface VoiceWaveformProps {
 
 export function VoiceWaveform({ isListening = false }: VoiceWaveformProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const animationFrameRef = useRef<number>();
+    const animationFrameRef = useRef<number>(0);
     const audioContextRef = useRef<AudioContext | null>(null);
     const analyserRef = useRef<AnalyserNode | null>(null);
     const dataArrayRef = useRef<Uint8Array | null>(null);
+    const barsRef = useRef<number[]>([]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -21,60 +22,91 @@ export function VoiceWaveform({ isListening = false }: VoiceWaveformProps) {
         if (!ctx) return;
 
         const resizeCanvas = () => {
-            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            const parent = canvas.parentElement;
+            if (parent) {
+                canvas.width = parent.offsetWidth * window.devicePixelRatio;
+                canvas.height = parent.offsetHeight * window.devicePixelRatio;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            }
         };
 
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        const barCount = 32;
-        const bars = Array(barCount).fill(0).map(() => Math.random() * 0.5 + 0.2);
+        const barCount = 64; // Doubled for finer resolution
+        // Initialize bars if empty
+        if (barsRef.current.length === 0) {
+            barsRef.current = Array(barCount).fill(0.1);
+        }
 
         const animate = () => {
             if (!ctx || !canvas) return;
 
+            // Check if canvas is still attached to DOM
+            if (!canvas.isConnected) {
+                if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+                return;
+            }
+
             const width = canvas.offsetWidth;
             const height = canvas.offsetHeight;
             const barWidth = width / barCount;
+            const gap = 2;
+            const actualBarWidth = Math.max(2, barWidth - gap);
 
-            // Clear canvas
             ctx.clearRect(0, 0, width, height);
 
-            // Update bars
-            bars.forEach((bar, index) => {
+            barsRef.current.forEach((bar, index) => {
+                let targetHeight = 0.1; // Default idle height
+
                 if (isListening && dataArrayRef.current && analyserRef.current) {
-                    // Use real audio data
-                    const value = dataArrayRef.current[index * Math.floor(dataArrayRef.current.length / barCount)] / 255;
-                    bars[index] = value * 0.8 + bars[index] * 0.2; // Smooth transition
-                } else {
-                    // Simulate waveform
-                    bars[index] += (Math.random() - 0.5) * 0.1;
-                    bars[index] = Math.max(0.1, Math.min(1, bars[index]));
+                    // Map frequency data to bars (skip high frequencies that retain less energy)
+                    const dataIndex = Math.floor(index * (dataArrayRef.current.length / 2) / barCount);
+                    const value = dataArrayRef.current[dataIndex] / 255;
+                    // Amplify signal for better visibility
+                    targetHeight = Math.max(0.1, value * 1.2);
+                } else if (!isListening) {
+                    // Gentle idle animation wave
+                    const time = Date.now() / 1000;
+                    targetHeight = 0.1 + Math.sin(index * 0.2 + time) * 0.05;
                 }
 
-                const barHeight = bars[index] * height * 0.8;
-                const x = index * barWidth;
-                const y = (height - barHeight) / 2;
+                // Smooth interpolation
+                barsRef.current[index] += (targetHeight - barsRef.current[index]) * 0.2;
 
-                // Create gradient for bar
-                const gradient = ctx.createLinearGradient(x, y, x, y + barHeight);
-                gradient.addColorStop(0, '#FF8A3D');
-                gradient.addColorStop(0.5, '#E67300');
-                gradient.addColorStop(1, '#CC5500');
+                const currentHeight = barsRef.current[index] * height;
+                const x = index * barWidth + (barWidth - actualBarWidth) / 2;
+                // Draw from bottom
+                const y = height - currentHeight;
 
-                // Draw bar
+                // Create gradient
+                const gradient = ctx.createLinearGradient(x, height, x, y);
+                if (isListening) {
+                    gradient.addColorStop(0, 'rgba(255, 138, 61, 0.9)'); // #FF8A3D at bottom
+                    gradient.addColorStop(1, 'rgba(204, 85, 0, 0.1)'); // Top fade
+                } else {
+                    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+                    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
+                }
+
                 ctx.fillStyle = gradient;
-                ctx.fillRect(x + barWidth * 0.2, y, barWidth * 0.6, barHeight);
 
-                // Add glow
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = 'rgba(204, 85, 0, 0.5)';
+                // Draw rounded rect from bottom
+                ctx.beginPath();
+                // Custom rounded rect to only round top corners? 
+                // For simplicity, using roundRect but since it's at the bottom, visual is fine.
+                // Could also do rect and clip but roundRect is easier.
+                ctx.roundRect(x, y, actualBarWidth, currentHeight, [4, 4, 0, 0]);
+                ctx.fill();
+
+                // Add subtle glow for active listening
+                if (isListening) {
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = 'rgba(204, 85, 0, 0.4)';
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
             });
-
-            // Reset shadow
-            ctx.shadowBlur = 0;
 
             animationFrameRef.current = requestAnimationFrame(animate);
         };
@@ -89,28 +121,34 @@ export function VoiceWaveform({ isListening = false }: VoiceWaveformProps) {
         };
     }, [isListening]);
 
-    // Initialize audio context when listening starts
+    // Initialize audio context logic
     useEffect(() => {
+        let updateFrameId: number;
+
         if (isListening && !audioContextRef.current) {
             navigator.mediaDevices
                 .getUserMedia({ audio: true })
                 .then((stream) => {
+                    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
                     audioContextRef.current = new AudioContext();
                     analyserRef.current = audioContextRef.current.createAnalyser();
                     analyserRef.current.fftSize = 256;
+                    analyserRef.current.smoothingTimeConstant = 0.8; // Smoother transitions
 
                     const source = audioContextRef.current.createMediaStreamSource(stream);
                     source.connect(analyserRef.current);
 
                     const bufferLength = analyserRef.current.frequencyBinCount;
+                    // Fix: Explicitly create Uint8Array
                     dataArrayRef.current = new Uint8Array(bufferLength);
 
                     const updateData = () => {
                         if (analyserRef.current && dataArrayRef.current) {
-                            analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+                            // Cast to unknown then Uint8Array to satisfy strict typing
+                            analyserRef.current.getByteFrequencyData(dataArrayRef.current as unknown as Uint8Array);
                         }
                         if (isListening) {
-                            requestAnimationFrame(updateData);
+                            updateFrameId = requestAnimationFrame(updateData);
                         }
                     };
                     updateData();
@@ -121,9 +159,15 @@ export function VoiceWaveform({ isListening = false }: VoiceWaveformProps) {
         }
 
         return () => {
-            if (audioContextRef.current) {
-                audioContextRef.current.close();
-                audioContextRef.current = null;
+            if (updateFrameId) {
+                cancelAnimationFrame(updateFrameId);
+            }
+            if (audioContextRef.current && !isListening) {
+                // Only close if we are stopping listening, otherwise keep context?? 
+                // Actually good practice to suspend/close.
+                audioContextRef.current.close().then(() => {
+                    audioContextRef.current = null;
+                });
             }
         };
     }, [isListening]);

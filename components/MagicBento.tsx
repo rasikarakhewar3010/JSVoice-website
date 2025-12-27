@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
-import { Mic, Play, Zap, Radio, BarChart3, FileCode } from 'lucide-react';
+import { Mic, Play, Zap, Radio, BarChart3, FileCode, ArrowUpRight } from 'lucide-react';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
@@ -490,7 +490,7 @@ interface BentoCardGridProps {
 
 const BentoCardGrid: React.FC<BentoCardGridProps> = ({ children, gridRef }) => (
     <div
-        className="bento-section grid gap-2 p-3 max-w-[80rem] select-none relative mx-auto"
+        className="bento-section grid gap-4 p-4 max-w-[85rem] select-none relative mx-auto"
         style={{ fontSize: 'clamp(1rem, 0.9rem + 0.5vw, 1.5rem)' }}
         ref={gridRef}
     >
@@ -528,17 +528,17 @@ interface MagicBentoProps {
 }
 
 const MagicBento: React.FC<MagicBentoProps> = ({
-    textAutoHide = true,
-    enableStars = false, // Disabled to prevent particle movement
+    textAutoHide = false,
+    enableStars = false,
     enableSpotlight = true,
     enableBorderGlow = true,
     disableAnimations = false,
     spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
     particleCount = DEFAULT_PARTICLE_COUNT,
-    enableTilt = false, // Disabled to prevent tilt movement
+    enableTilt = false,
     glowColor = DEFAULT_GLOW_COLOR,
-    clickEffect = false, // Disabled to prevent click ripple
-    enableMagnetism = false // Disabled to prevent magnetic movement
+    clickEffect = false,
+    enableMagnetism = false
 }) => {
     const gridRef = useRef<HTMLDivElement>(null);
     const isMobile = useMobileDetection();
@@ -552,10 +552,10 @@ const MagicBento: React.FC<MagicBentoProps> = ({
             --glow-x: 50%;
             --glow-y: 50%;
             --glow-intensity: 0;
-            --glow-radius: 200px;
+            --glow-radius: 300px;
             --glow-color: ${glowColor};
-            --border-color: rgba(204, 85, 0, 0.2);
-            --background-dark: #0A0A0A;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --background-dark: rgba(20, 20, 20, 0.4);
             --white: hsl(0, 0%, 100%);
             --orange-primary: rgba(230, 115, 0, 1);
             --orange-glow: rgba(230, 115, 0, 0.2);
@@ -566,7 +566,6 @@ const MagicBento: React.FC<MagicBentoProps> = ({
             grid-template-columns: 1fr;
             width: 100%;
             margin: 0 auto;
-            padding: 0.5rem;
           }
           
           @media (min-width: 600px) {
@@ -600,28 +599,39 @@ const MagicBento: React.FC<MagicBentoProps> = ({
             content: '';
             position: absolute;
             inset: 0;
-            padding: 6px;
+            padding: 1px;
             background: radial-gradient(var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-                rgba(${glowColor}, calc(var(--glow-intensity) * 0.8)) 0%,
-                rgba(${glowColor}, calc(var(--glow-intensity) * 0.4)) 30%,
-                transparent 60%);
+                rgba(${glowColor}, 1) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%);
             border-radius: inherit;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             pointer-events: none;
-            opacity: 1;
+            opacity: 0.6;
             transition: opacity 0.3s ease;
-            z-index: 1;
+            z-index: 10;
           }
           
           .card--border-glow:hover::after {
             opacity: 1;
           }
+
+          .card-bg-noise {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+          }
           
           .card--border-glow:hover {
-            box-shadow: 0 4px 20px rgba(204, 85, 0, 0.4), 0 0 30px rgba(${glowColor}, 0.2);
+            box-shadow: 0 0 50px -10px rgba(${glowColor}, 0.15);
+            background: rgba(30, 30, 30, 0.6);
+            transform: translateY(-2px);
           }
           
           .particle::before {
@@ -636,38 +646,12 @@ const MagicBento: React.FC<MagicBentoProps> = ({
             z-index: -1;
           }
           
-          .particle-container:hover {
-            box-shadow: 0 4px 20px rgba(204, 85, 0, 0.2), 0 0 30px rgba(${glowColor}, 0.2);
-          }
-          
-          .text-clamp-1 {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            line-clamp: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          
-          .text-clamp-2 {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          
           @media (max-width: 599px) {
             .card-responsive {
               grid-template-columns: 1fr;
-              width: 95%;
-              margin: 0 auto;
-              padding: 0.5rem;
-            }
-            
-            .card-responsive .card {
               width: 100%;
+            }
+            .card-responsive .card {
               min-height: 140px;
             }
           }
@@ -685,15 +669,13 @@ const MagicBento: React.FC<MagicBentoProps> = ({
             )}
 
             <BentoCardGrid gridRef={gridRef as React.RefObject<HTMLDivElement>}>
-                <div className="card-responsive grid gap-2">
+                <div className="card-responsive grid gap-4">
                     {cardData.map((card, index) => {
-                        const baseClassName = `card flex flex-col justify-between relative aspect-[5/3] min-h-[140px] w-full max-w-full p-4 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${enableBorderGlow ? 'card--border-glow' : ''
+                        const baseClassName = `card group flex flex-col justify-between relative aspect-[5/3] min-h-[180px] w-full max-w-full p-6 md:p-8 rounded-[24px] border border-white/5 font-light overflow-hidden transition-all duration-500 ease-out backdrop-blur-xl ${enableBorderGlow ? 'card--border-glow' : ''
                             }`;
 
                         const cardStyle: React.CSSProperties = {
-                            backgroundColor: card.color || 'var(--background-dark)',
-                            borderColor: 'var(--border-color)',
-                            color: 'var(--white)',
+                            backgroundColor: 'var(--background-dark)',
                             '--glow-x': '50%',
                             '--glow-y': '50%',
                             '--glow-intensity': '0',
@@ -705,64 +687,43 @@ const MagicBento: React.FC<MagicBentoProps> = ({
 
                         const Icon = card.icon;
 
-                        if (enableStars) {
-                            return (
-                                <ParticleCard
-                                    key={index}
-                                    className={`${baseClassName} group`}
-                                    style={cardStyle}
-                                    disableAnimations={shouldDisableAnimations}
-                                    particleCount={particleCount}
-                                    glowColor={glowColor}
-                                    enableTilt={enableTilt}
-                                    clickEffect={clickEffect}
-                                    enableMagnetism={enableMagnetism}
-                                >
-                                    {/* Background Icon */}
-                                    <div className="absolute bottom-4 right-4 opacity-[0.08] transition-all duration-500 group-hover:opacity-[0.15] group-hover:text-[#FF8A3D]">
-                                        <Icon size={120} className="text-gray-500" />
-                                    </div>
-
-                                    <div className="card__header flex justify-between gap-3 relative text-white z-10">
-                                        <span className="card__label text-sm font-medium">{card.label}</span>
-                                    </div>
-                                    <div className="card__content flex flex-col relative text-white z-10">
-                                        <div className="mb-2">
-                                            <Icon size={48} className="text-[#FF8A3D]" />
-                                        </div>
-                                        <h3 className={`card__title font-semibold text-xl m-0 mb-1 ${textAutoHide ? 'text-clamp-1' : ''}`}>
-                                            {card.title}
-                                        </h3>
-                                        <p
-                                            className={`card__description text-sm leading-6 opacity-80 ${textAutoHide ? 'text-clamp-2' : ''}`}
-                                        >
-                                            {card.description}
-                                        </p>
-                                    </div>
-                                </ParticleCard>
-                            );
-                        }
-
                         return (
-                            <div key={index} className={`${baseClassName} group`} style={cardStyle}>
-                                {/* Background Icon */}
-                                <div className="absolute bottom-4 right-4 opacity-[0.08] transition-all duration-500 group-hover:opacity-[0.15] group-hover:text-[#FF8A3D]">
-                                    <Icon size={120} className="text-gray-500" />
+                            <div key={index} className={baseClassName} style={cardStyle}>
+                                {/* Noise Texture */}
+                                <div className="card-bg-noise" />
+
+                                {/* Subtle Gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none z-0" />
+
+                                {/* Hover Gradient Splash */}
+                                <div className="absolute inset-0 bg-gradient-to-tr from-[#CC5500]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
+
+                                {/* Background Huge Icon */}
+                                <div className="absolute -bottom-8 -right-8 opacity-[0.03] transition-all duration-700 ease-out group-hover:opacity-[0.15] group-hover:scale-110 group-hover:rotate-[-10deg] group-hover:text-[#FF8A3D] z-0">
+                                    <Icon size={200} />
                                 </div>
 
-                                <div className="card__header flex justify-between gap-3 relative text-white z-10">
-                                    <span className="card__label text-sm font-medium">{card.label}</span>
-                                </div>
-                                <div className="card__content flex flex-col relative text-white z-10">
-                                    <div className="mb-2">
-                                        <Icon size={48} className="text-[#FF8A3D]" />
+                                <div className="card__header flex justify-between items-start gap-3 relative z-10">
+                                    <div className="p-3 rounded-2xl bg-[#CC5500]/10 border border-[#CC5500]/20 group-hover:bg-[#CC5500] group-hover:shadow-[0_0_20px_rgba(204,85,0,0.4)] transition-all duration-300">
+                                        <Icon size={24} className="text-[#CC5500] group-hover:text-white transition-colors" />
                                     </div>
-                                    <h3 className={`card__title font-semibold text-xl m-0 mb-1 ${textAutoHide ? 'text-clamp-1' : ''}`}>
+                                    <div className="px-3 py-1 rounded-full bg-white/5 border border-white/5 text-[10px] uppercase tracking-wider font-semibold text-gray-400 group-hover:text-white group-hover:border-white/20 transition-all">
+                                        {card.label}
+                                    </div>
+                                </div>
+
+                                <div className="card__content flex flex-col relative z-10 mt-auto">
+                                    <h3 className="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-[#E67300] transition-colors">
                                         {card.title}
                                     </h3>
-                                    <p className={`card__description text-sm leading-6 opacity-80 ${textAutoHide ? 'text-clamp-2' : ''}`}>
+                                    <p className="text-sm md:text-base text-gray-400 leading-relaxed font-normal group-hover:text-gray-300 transition-colors">
                                         {card.description}
                                     </p>
+
+                                    <div className="mt-4 flex items-center text-xs font-mono text-[#CC5500] opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                        <span>Learn more</span>
+                                        <ArrowUpRight className="w-3 h-3 ml-1" />
+                                    </div>
                                 </div>
                             </div>
                         );

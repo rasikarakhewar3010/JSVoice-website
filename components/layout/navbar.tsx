@@ -10,28 +10,17 @@ export function Navbar() {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [lastScrollY, setLastScrollY] = useState(0);
-    const [isVisible, setIsVisible] = useState(true);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-
-            // Hide/show navbar based on scroll direction
-            if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                setIsVisible(false);
-            } else {
-                setIsVisible(true);
-            }
-
-            setLastScrollY(currentScrollY);
             setIsScrolled(currentScrollY > 20);
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY]);
+    }, []);
 
     // Keyboard shortcut for search
     useEffect(() => {
@@ -48,8 +37,8 @@ export function Navbar() {
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${isVisible ? 'translate-y-0' : '-translate-y-full'
-                } ${isScrolled ? 'glass py-3' : 'bg-[#0A0A0A]/95 md:bg-transparent py-4'}`}
+            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 
+                ${isScrolled ? 'glass py-3' : 'bg-[#0A0A0A]/95 md:bg-transparent py-4'}`}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
@@ -78,8 +67,7 @@ export function Navbar() {
                         {[
                             { name: 'Documentation', href: '/docs' },
                             { name: 'Playground', href: '/playground' },
-                            { name: 'Showcase', href: '/showcase' },
-                            { name: 'Blog', href: '/blog' }
+                            { name: 'Showcase', href: '/showcase' }
                         ].map((item) => {
                             const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
                             return (
@@ -171,8 +159,7 @@ export function Navbar() {
                             {[
                                 { name: 'Documentation', href: '/docs' },
                                 { name: 'Playground', href: '/playground' },
-                                { name: 'Showcase', href: '/showcase' },
-                                { name: 'Blog', href: '/blog' }
+                                { name: 'Showcase', href: '/showcase' }
                             ].map((item) => {
                                 const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
                                 return (

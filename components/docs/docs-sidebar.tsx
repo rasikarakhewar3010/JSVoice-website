@@ -35,10 +35,10 @@ export function DocsSidebar() {
 
             {/* Sidebar Container */}
             <aside className={cn(
-                "fixed inset-y-0 left-0 z-40 w-64 bg-[#0A0A0A] border-r border-[#CC5500]/10 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:block",
+                "fixed inset-y-0 left-0 z-40 w-64 bg-[#050505]/95 border-r border-[#CC5500]/20 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:fixed lg:top-24 lg:bottom-0 lg:left-0 lg:h-auto backdrop-blur-xl",
                 isMobileOpen ? "translate-x-0" : "-translate-x-full"
             )}>
-                <div className="h-full overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-[#CC5500]/20 scrollbar-track-transparent">
+                <div className="h-full overflow-y-auto p-6 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/5 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#CC5500]/50 transition-colors">
                     {/* Brand/Home Link could go here if not in main Nav */}
 
                     <div className="space-y-8">

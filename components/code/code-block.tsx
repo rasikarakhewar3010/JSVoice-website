@@ -46,6 +46,7 @@ export function CodeBlock({
                     onClick={handleCopy}
                     className="relative flex items-center justify-center w-20 h-8 rounded text-xs font-medium text-gray-400 hover:text-[#E67300] hover:bg-[#CC5500]/10 transition-colors"
                     aria-label="Copy code"
+                    suppressHydrationWarning
                 >
                     <AnimatePresence mode='wait'>
                         {isCopied ? (

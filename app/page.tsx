@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Github, Mic, Play, Code, Zap, Radio, BarChart3, FileCode, Package, Rocket, Check, Terminal } from 'lucide-react';
+import { Github, Mic, Play, Code, Zap, Radio, BarChart3, FileCode, Package, Rocket, Check, Terminal, ArrowUpDown, Search, MousePointerClick, Keyboard, MonitorPlay, Moon, ArrowRight } from 'lucide-react';
 import LiquidEtherWrapper from '@/components/LiquidEtherWrapper';
 import MagicBento from '@/components/MagicBento';
 import { CodeBlock } from '@/components/code/code-block';
+import { CTASection } from '@/components/home/cta-section';
 
 export default function HomePage() {
 
@@ -96,12 +97,12 @@ const voice = new JSVoice({
 // System: [Executes command]`;
 
   const builtInCommands = [
-    { category: 'Scrolling', commands: ['scroll down', 'scroll up', 'scroll to bottom', 'scroll to top'] },
-    { category: 'Zoom', commands: ['zoom in', 'zoom out', 'reset zoom'] },
-    { category: 'Click', commands: ['click [text]', 'click button [text]'] },
-    { category: 'Form', commands: ['type [value] in [field]', 'fill [value] in [field]'] },
-    { category: 'Reading', commands: ['read this page', 'read this paragraph'] },
-    { category: 'Theme', commands: ['toggle dark mode', 'dark mode on/off'] },
+    { category: 'Scrolling', icon: ArrowUpDown, commands: ['scroll down', 'scroll up', 'scroll to bottom', 'scroll to top'] },
+    { category: 'Zoom', icon: Search, commands: ['zoom in', 'zoom out', 'reset zoom'] },
+    { category: 'Click', icon: MousePointerClick, commands: ['click [text]', 'click button [text]'] },
+    { category: 'Form', icon: Keyboard, commands: ['type [value] in [field]', 'fill [value] in [field]'] },
+    { category: 'Reading', icon: MonitorPlay, commands: ['read this page', 'read this paragraph'] },
+    { category: 'Theme', icon: Moon, commands: ['toggle dark mode', 'dark mode on/off'] },
   ];
 
   return (
@@ -189,58 +190,136 @@ const voice = new JSVoice({
         </div>
       </section>
 
-      {/* Quick Start */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Quick Start Section - Premium Redesign */}
+      <section className="relative py-24 overflow-hidden">
+        {/* Connecting Line to Previous Section */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-transparent via-[#CC5500]/20 to-transparent" />
+
+        {/* Background Ambient Glow */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-[#CC5500]/5 rounded-full blur-[100px] -translate-x-1/2" />
+          <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-[#E67300]/5 rounded-full blur-[100px] translate-x-1/2" />
+        </div>
+
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-              Get Started in 30 Seconds
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight">
+              <span className="text-white">Get Started in </span>
+              <span className="text-gradient-orange">Seconds</span>
             </h2>
-            <p className="text-xl text-gray-400">
-              Simple installation and intuitive API
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">
+              Drop it in, configure in moments. No complex setup required.
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-8">
-            {/* Installation */}
-            <div className="glass rounded-xl p-8">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 rounded-full gradient-orange flex items-center justify-center text-white font-bold glow-orange">
-                  1
+          <div className="relative max-w-6xl mx-auto">
+            {/* Vertical Timeline Line (Desktop) */}
+            <div className="absolute left-1/2 top-0 bottom-10 w-px bg-gradient-to-b from-transparent via-[#CC5500]/30 to-transparent hidden md:block" />
+
+            <div className="space-y-24">
+              {/* Step 1: Install */}
+              <div className="relative grid md:grid-cols-2 gap-12 items-center group/step1">
+                <div className="md:text-right order-2 md:order-1 relative z-10">
+                  <div className="md:absolute md:right-[-3.5rem] md:top-0 w-12 h-12 rounded-full bg-[#0A0A0A] border border-[#CC5500] flex items-center justify-center text-[#CC5500] font-bold text-xl shadow-[0_0_20px_rgba(204,85,0,0.3)] z-20 mx-auto mb-6 md:mb-0 md:mx-0">
+                    1
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-4 group-hover/step1:text-[#E67300] transition-colors">Install the Package</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed">
+                    Lightweight, zero-dependency, and type-safe. Just run one command and you're ready to build.
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold text-white">Install JSVoice</h3>
+
+                <div className="relative order-1 md:order-2">
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#CC5500] to-[#E67300] rounded-2xl opacity-20 blur group-hover/step1:opacity-40 transition-opacity duration-500" />
+                  <div className="relative glass-strong rounded-2xl p-1 ring-1 ring-white/10 group-hover/step1:ring-[#CC5500]/50 transition-all duration-500">
+                    <div className="relative bg-[#0A0A0A]/80 backdrop-blur-sm rounded-xl overflow-hidden">
+                      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-[#141414]/50">
+                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/20" />
+                        <div className="ml-auto text-xs text-gray-500 font-mono">terminal</div>
+                      </div>
+                      <div className="p-6">
+                        <CodeBlock code={installCode} language="bash" showLineNumbers={false} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <CodeBlock code={installCode} language="bash" showLineNumbers={false} />
+
+              {/* Step 2: Configure */}
+              <div className="relative grid md:grid-cols-2 gap-12 items-center group/step2">
+                <div className="relative order-1">
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#E67300] to-[#CC5500] rounded-2xl opacity-20 blur group-hover/step2:opacity-40 transition-opacity duration-500" />
+                  <div className="relative glass-strong rounded-2xl p-1 ring-1 ring-white/10 group-hover/step2:ring-[#CC5500]/50 transition-all duration-500">
+                    <div className="relative bg-[#0A0A0A]/80 backdrop-blur-sm rounded-xl overflow-hidden">
+                      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-[#141414]/50">
+                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/20" />
+                        <div className="ml-auto text-xs text-gray-500 font-mono">app.js</div>
+                      </div>
+                      <div className="p-0">
+                        <CodeBlock code={basicCode} language="javascript" filename="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="md:text-left order-2 relative z-10">
+                  <div className="md:absolute md:left-[-3.5rem] md:top-0 w-12 h-12 rounded-full bg-[#0A0A0A] border border-[#CC5500] flex items-center justify-center text-[#CC5500] font-bold text-xl shadow-[0_0_20px_rgba(204,85,0,0.3)] z-20 mx-auto mb-6 md:mb-0 md:mx-0">
+                    2
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-4 group-hover/step2:text-[#E67300] transition-colors">Add Voice Commands</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed">
+                    Define commands with simple syntax. Handle events, feedback, and more with our intuitive API.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Basic Usage */}
-            <div className="glass rounded-xl p-8">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 rounded-full gradient-orange flex items-center justify-center text-white font-bold glow-orange">
-                  2
-                </div>
-                <h3 className="text-2xl font-bold text-white">Add Voice Commands</h3>
-              </div>
-              <CodeBlock code={basicCode} language="javascript" filename="app.js" />
-            </div>
-
-            <div className="text-center pt-8">
+            <div className="text-center mt-32">
               <Link
                 href="/docs"
-                className="inline-flex items-center px-8 py-4 rounded-lg gradient-orange text-white font-semibold text-lg hover:glow-orange transition-all"
+                className="group relative inline-flex items-center justify-center px-12 py-6 rounded-full bg-[#0A0A0A] text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105"
               >
-                View Full Documentation →
+                {/* Gradient Border/Glow */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#CC5500] via-[#E67300] to-[#CC5500] opacity-80 group-hover:opacity-100 transition-opacity blur-[1px]" />
+
+                {/* Inner Background */}
+                <div className="absolute inset-[1px] rounded-full bg-[#0A0A0A] z-0" />
+
+                {/* Inner Gradient Spill */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#CC5500]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-0" />
+
+                {/* Shine Animation */}
+                <div className="absolute -inset-full top-0 block h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine z-10" />
+
+                {/* Content */}
+                <span className="relative z-10 flex items-center gap-3 group-hover:text-[#FF8A3D] transition-colors">
+                  View Full Documentation
+                  <Rocket className="w-5 h-5 group-hover:rotate-12 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300 text-[#CC5500] group-hover:text-[#FF8A3D]" />
+                </span>
+
+                {/* Liquid Splash Bottom Glow */}
+                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-[#CC5500] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-300" />
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Advanced Features */}
-      <section className="py-20 bg-gradient-dark">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Advanced Features - Dark Premium Showcase */}
+      <section className="relative py-24 bg-[#050505] overflow-hidden">
+        {/* Connecting Line to Previous Section */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-[#CC5500]/20 to-transparent" />
+
+        {/* Decorative Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Advanced Capabilities
             </h2>
             <p className="text-xl text-gray-400">
@@ -248,65 +327,141 @@ const voice = new JSVoice({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* Pattern Matching */}
-            <div className="glass rounded-xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center space-x-2">
-                <Zap className="w-6 h-6 text-[#E67300]" />
-                <span>Pattern Matching</span>
-              </h3>
-              <p className="text-gray-400 mb-4">
-                Extract variables from voice commands automatically
-              </p>
-              <CodeBlock code={patternCode} language="javascript" filename="pattern-example.js" />
+          <div className="space-y-24 max-w-6xl mx-auto">
+            {/* Pattern Matching Feature */}
+            <div className="group relative rounded-3xl bg-[#0F0F0F] border border-white/5 overflow-hidden">
+              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#CC5500]/5 blur-[120px] rounded-full group-hover:bg-[#CC5500]/10 transition-colors duration-700" />
+
+              <div className="grid lg:grid-cols-2 gap-0">
+                <div className="p-12 flex flex-col justify-center relative z-10">
+                  <div className="w-16 h-16 rounded-2xl bg-[#CC5500]/10 flex items-center justify-center mb-8 text-[#CC5500]">
+                    <Zap className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-6">Pattern Matching</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed mb-8">
+                    Create dynamic commands that can capture variables. Perfect for capturing numbers, names, or specific locations in a sentence.
+                    <br /><br />
+                    Just use curly braces <code className="text-[#E67300] bg-[#CC5500]/10 px-2 py-0.5 rounded">{'{}'}</code> to define variables.
+                  </p>
+                  <ul className="space-y-4">
+                    {['Extract numbers and strings', 'Type-safe argument handling', 'Flexible phrasing support'].map((item, i) => (
+                      <li key={i} className="flex items-center gap-3 text-gray-300">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#CC5500]" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-[#141414] border-l border-white/5 relative">
+                  <div className="absolute top-4 right-4 flex gap-2">
+                    <div className="w-2 h-2 rounded-full bg-white/20" />
+                    <div className="w-2 h-2 rounded-full bg-white/20" />
+                  </div>
+                  <div className="p-8 h-full flex items-center">
+                    <div className="w-full shadow-2xl rounded-lg overflow-hidden ring-1 ring-white/10">
+                      <CodeBlock code={patternCode} language="javascript" filename="pattern.js" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Wake Word */}
-            <div className="glass rounded-xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center space-x-2">
-                <Radio className="w-6 h-6 text-[#E67300]" />
-                <span>Wake Word Detection</span>
-              </h3>
-              <p className="text-gray-400 mb-4">
-                Hands-free activation with custom wake words
-              </p>
-              <CodeBlock code={wakeWordCode} language="javascript" filename="wake-word.js" />
+            {/* Wake Word Feature */}
+            <div className="group relative rounded-3xl bg-[#0F0F0F] border border-white/5 overflow-hidden">
+              <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#E67300]/5 blur-[120px] rounded-full group-hover:bg-[#E67300]/10 transition-colors duration-700" />
+
+              <div className="grid lg:grid-cols-2 gap-0">
+                <div className="bg-[#141414] border-r border-white/5 relative order-2 lg:order-1">
+                  <div className="p-8 h-full flex items-center">
+                    <div className="w-full shadow-2xl rounded-lg overflow-hidden ring-1 ring-white/10">
+                      <CodeBlock code={wakeWordCode} language="javascript" filename="wake-word.js" />
+                    </div>
+                  </div>
+                </div>
+                <div className="p-12 flex flex-col justify-center relative z-10 order-1 lg:order-2">
+                  <div className="w-16 h-16 rounded-2xl bg-[#CC5500]/10 flex items-center justify-center mb-8 text-[#CC5500]">
+                    <Radio className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-6">Wake Word Detection</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed mb-8">
+                    Enable hands-free activation with custom wake words. The system continuously listens for your keyword before activating command processing.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {['Hey Assistant', 'Computer', 'Jarvis'].map((word, i) => (
+                      <span key={i} className="px-4 py-2 rounded-full bg-[#CC5500]/10 border border-[#CC5500]/20 text-[#CC5500] text-sm font-mono">
+                        "{word}"
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Built-in Commands */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Built-in Commands - Premium Grid */}
+      <section className="relative py-24 bg-[#0A0A0A] overflow-hidden">
+        {/* Connecting Line */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-[#CC5500]/10 to-transparent" />
+
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Built-in Commands
             </h2>
-            <p className="text-xl text-gray-400">
-              Pre-built voice commands for common web interactions
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              A comprehensive library of commands ready to use out of the box.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {builtInCommands.map((category, index) => (
-              <div key={index} className="glass rounded-xl p-6">
-                <h3 className="text-xl font-bold text-[#E67300] mb-4">{category.category}</h3>
-                <ul className="space-y-2">
-                  {category.commands.map((cmd, cmdIndex) => (
-                    <li key={cmdIndex} className="flex items-start space-x-2 text-gray-300">
-                      <Check className="w-5 h-5 text-[#CC5500] flex-shrink-0 mt-0.5" />
-                      <code className="text-sm bg-[#141414] px-2 py-1 rounded">{cmd}</code>
-                    </li>
-                  ))}
-                </ul>
+              <div
+                key={index}
+                className="group relative h-full"
+              >
+                {/* Hover Glow Effect */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#CC5500] to-[#E67300] rounded-2xl opacity-0 group-hover:opacity-100 blur transition duration-500" />
+
+                <div className="relative h-full bg-[#141414] border border-[#2A2A2A] rounded-2xl p-8 hover:bg-[#1A1A1A] transition-all duration-300 flex flex-col overflow-hidden">
+                  {/* Background Icon Watermark */}
+                  <category.icon className="absolute -top-6 -right-6 w-32 h-32 text-white/[0.03] group-hover:text-[#CC5500]/10 transition-colors duration-500 transform group-hover:rotate-12 group-hover:scale-110" />
+
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="w-12 h-12 rounded-xl bg-[#0A0A0A] border border-[#333] flex items-center justify-center group-hover:border-[#CC5500]/50 group-hover:shadow-[0_0_20px_rgba(204,85,0,0.2)] transition-all duration-300">
+                        <category.icon className="w-6 h-6 text-gray-400 group-hover:text-[#E67300] transition-colors" />
+                      </div>
+                      <span className="text-xs font-mono text-gray-500 border border-white/5 px-2 py-1 rounded bg-[#0A0A0A]">
+                        {category.commands.length} cmds
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-white mb-6 group-hover:text-[#E67300] transition-colors flex items-center gap-2">
+                      {category.category}
+                      <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    </h3>
+
+                    <ul className="space-y-3">
+                      {category.commands.map((cmd, cmdIndex) => (
+                        <li key={cmdIndex} className="group/item flex items-center space-x-3 text-gray-400 transition-colors">
+                          <div className="w-1 h-1 rounded-full bg-[#333] group-hover/item:bg-[#CC5500] transition-colors" />
+                          <span className="text-sm font-mono font-medium group-hover/item:text-gray-200 transition-colors border-b border-transparent group-hover/item:border-[#CC5500]/30">
+                            {cmd}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Sections Removed: Stats, CTA */}
+      <CTASection />
 
     </div>
   );
