@@ -145,7 +145,7 @@ export function VoiceWaveform({ isListening = false }: VoiceWaveformProps) {
                     const updateData = () => {
                         if (analyserRef.current && dataArrayRef.current) {
                             // Cast to unknown then Uint8Array to satisfy strict typing
-                            analyserRef.current.getByteFrequencyData(dataArrayRef.current as unknown as Uint8Array);
+                            analyserRef.current.getByteFrequencyData(dataArrayRef.current as any);
                         }
                         if (isListening) {
                             updateFrameId = requestAnimationFrame(updateData);

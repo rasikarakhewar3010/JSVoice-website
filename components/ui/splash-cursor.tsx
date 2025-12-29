@@ -18,7 +18,7 @@ export function SplashCursor() {
     const particlesRef = useRef<Particle[]>([]);
     const mouseRef = useRef({ x: 0, y: 0 });
     const lastMouseRef = useRef({ x: 0, y: 0 });
-    const animationFrameRef = useRef<number>();
+    const animationFrameRef = useRef<number | null>(null);
 
     useEffect(() => {
         // Only run on desktop

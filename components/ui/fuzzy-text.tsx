@@ -16,7 +16,7 @@ export function FuzzyText({
     continuous = false,
 }: FuzzyTextProps) {
     const [displayText, setDisplayText] = useState(text);
-    const intervalRef = useRef<NodeJS.Timeout>();
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const chars = text.split('');
