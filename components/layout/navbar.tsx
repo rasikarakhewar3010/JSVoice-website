@@ -48,7 +48,7 @@ export function Navbar() {
                 <div className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2 group">
-                        <div className="relative w-10 h-10 group-hover:scale-110 transition-transform duration-300">
+                        <div className="relative w-8 h-8 sm:w-10 sm:h-10 group-hover:scale-110 transition-transform duration-300">
                             <Image
                                 src="/logo.png"
                                 alt="JSVoice Logo"
@@ -57,7 +57,7 @@ export function Navbar() {
                                 priority
                             />
                         </div>
-                        <span className="text-xl font-bold text-white hidden sm:block tracking-tight">
+                        <span className="text-lg sm:text-xl font-bold text-white hidden min-[400px]:block tracking-tight">
                             JSVoice
                         </span>
                     </Link>
@@ -251,21 +251,37 @@ export function Navbar() {
                             })}
 
                             {/* Mobile Utility Toggles */}
-                            <div className="flex items-center space-x-2 p-2 pt-4 border-t border-[#CC5500]/10">
+                            <div className="space-y-3 p-2 pt-4 border-t border-[#CC5500]/10">
+                                {/* Theme Row */}
                                 <button
                                     onClick={() => setMatrixMode(!matrixMode)}
-                                    className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all duration-300 ${matrixMode ? 'bg-[#CC5500]/20 border-[#CC5500] text-[#CC5500]' : 'bg-[#1F1F1F] border-white/5 text-gray-400'}`}
+                                    className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all duration-300 ${matrixMode ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500' : 'bg-blue-500/10 border-blue-500/20 text-blue-400'}`}
                                 >
-                                    <Zap className="w-4 h-4" />
-                                    <span className="text-xs font-medium">Matrix</span>
+                                    <div className="flex items-center gap-3">
+                                        {matrixMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                                        <span className="text-sm font-bold">{matrixMode ? 'Light Mode' : 'Dark Mode'}</span>
+                                    </div>
+                                    <div className={`w-8 h-4 rounded-full relative transition-colors ${matrixMode ? 'bg-yellow-600' : 'bg-gray-700'}`}>
+                                        <div className={`absolute top-1 w-2 h-2 rounded-full bg-white transition-all ${matrixMode ? 'left-5' : 'left-1'}`} />
+                                    </div>
                                 </button>
-                                <button
-                                    onClick={() => setGhostMode(!ghostMode)}
-                                    className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all duration-300 ${ghostMode ? 'bg-[#CC5500]/20 border-[#CC5500] text-[#CC5500]' : 'bg-[#1F1F1F] border-white/5 text-gray-400'}`}
-                                >
-                                    <Ghost className="w-4 h-4" />
-                                    <span className="text-xs font-medium">Ghost</span>
-                                </button>
+
+                                <div className="flex items-center space-x-2">
+                                    <button
+                                        onClick={() => setGhostMode(!ghostMode)}
+                                        className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all duration-300 ${ghostMode ? 'bg-[#CC5500]/20 border-[#CC5500] text-[#CC5500]' : 'bg-[#1F1F1F] border-white/5 text-gray-400'}`}
+                                    >
+                                        <Ghost className="w-4 h-4" />
+                                        <span className="text-xs font-medium">Ghost</span>
+                                    </button>
+                                    <button
+                                        onClick={() => setMatrixMode(!matrixMode)}
+                                        className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all duration-300 ${matrixMode ? 'bg-[#CC5500]/20 border-[#CC5500] text-[#CC5500]' : 'bg-[#1F1F1F] border-white/5 text-gray-400'}`}
+                                    >
+                                        <Zap className="w-4 h-4" />
+                                        <span className="text-xs font-medium">Matrix</span>
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="pt-4 border-t border-[#CC5500]/20">

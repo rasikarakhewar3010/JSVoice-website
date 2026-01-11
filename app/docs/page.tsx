@@ -78,30 +78,36 @@ export default function IntroductionPage() {
             </DocsSection>
 
             <DocsSection title="Browser Support">
-                <div className="overflow-hidden rounded-lg border border-white/10">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-white/5 text-gray-300">
-                            <tr>
-                                <th className="px-4 py-3 font-medium">Browser</th>
-                                <th className="px-4 py-3 font-medium">Support</th>
-                                <th className="px-4 py-3 font-medium">Notes</th>
+                <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0A0A0A] no-scrollbar shadow-xl">
+                    <table className="w-full text-sm text-left border-collapse min-w-[500px]">
+                        <thead className="bg-white/[0.02] text-gray-400 font-mono">
+                            <tr className="border-b border-white/5">
+                                <th className="px-6 py-4 font-black uppercase tracking-widest text-[10px]">Browser</th>
+                                <th className="px-6 py-4 font-black uppercase tracking-widest text-[10px]">Support</th>
+                                <th className="px-6 py-4 font-black uppercase tracking-widest text-[10px]">Notes</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 text-gray-400">
-                            <tr>
-                                <td className="px-4 py-3 text-white">Chrome / Edge</td>
-                                <td className="px-4 py-3 text-green-400">Full Support</td>
-                                <td className="px-4 py-3">Best experience (Google Engine)</td>
+                            <tr className="hover:bg-white/[0.01] transition-colors">
+                                <td className="px-6 py-4 text-white font-medium">Chrome / Edge</td>
+                                <td className="px-6 py-4">
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded bg-green-500/10 text-green-400 text-[10px] font-bold uppercase">Full Support</span>
+                                </td>
+                                <td className="px-6 py-4 text-xs">Best experience (Google Chromium Engine)</td>
                             </tr>
-                            <tr>
-                                <td className="px-4 py-3 text-white">Safari</td>
-                                <td className="px-4 py-3 text-yellow-400">Partial</td>
-                                <td className="px-4 py-3">Requires user gesture for every start</td>
+                            <tr className="hover:bg-white/[0.01] transition-colors">
+                                <td className="px-6 py-4 text-white font-medium">Safari</td>
+                                <td className="px-6 py-4">
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 text-[10px] font-bold uppercase">Partial</span>
+                                </td>
+                                <td className="px-6 py-4 text-xs">Requires user gesture for activation</td>
                             </tr>
-                            <tr>
-                                <td className="px-4 py-3 text-white">Firefox</td>
-                                <td className="px-4 py-3 text-red-400">None</td>
-                                <td className="px-4 py-3">Speech Recognition API not supported</td>
+                            <tr className="hover:bg-white/[0.01] transition-colors">
+                                <td className="px-6 py-4 text-white font-medium">Firefox</td>
+                                <td className="px-6 py-4">
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded bg-red-500/10 text-red-500 text-[10px] font-bold uppercase">None</span>
+                                </td>
+                                <td className="px-6 py-4 text-xs">Speech Recognition API currently disabled</td>
                             </tr>
                         </tbody>
                     </table>

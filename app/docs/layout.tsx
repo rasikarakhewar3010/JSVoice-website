@@ -11,7 +11,7 @@ export default function DocsLayout({
 }) {
     return (
         <DocsVoiceProvider>
-            <div className="flex min-h-screen bg-[#050505] pt-24 relative overflow-hidden">
+            <div className="flex min-h-screen bg-[#050505] pt-24 relative overflow-x-hidden">
                 {/* Ambient Backgrounds */}
                 <div className="fixed top-0 left-0 w-[500px] h-[500px] bg-[#CC5500]/5 blur-[120px] rounded-full pointer-events-none" />
                 <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-[#CC5500]/5 blur-[120px] rounded-full pointer-events-none" />

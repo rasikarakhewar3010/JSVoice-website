@@ -82,15 +82,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico" },
       { url: "/logo.png", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
   manifest: "/site.webmanifest",
   verification: {
-    google: "google-site-verification: google929b1c4c62238e0e.html", // Replace with actual code if available
+    google: "qeLreV93us0nBHvloGc2a8NjO-m0yfereg59L6MREeE",
   },
   category: "technology",
 

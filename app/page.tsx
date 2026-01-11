@@ -98,9 +98,9 @@ export default function HomePage() {
           />
         </div>
 
-        {/* 3D Orb Background Accent - Balanced size to prevent header/footer cutting */}
-        <div className="absolute inset-0 z-0 flex items-center justify-center opacity-50 pointer-events-none">
-          <div className="w-[800px] h-[800px]">
+        {/* 3D Orb Background Accent - Responsive sizing */}
+        <div className="absolute inset-0 z-0 flex items-center justify-center opacity-40 md:opacity-50 pointer-events-none overflow-hidden">
+          <div className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] md:w-[800px] md:h-[800px] transition-all duration-700">
             <VoiceOrb isListening={voiceStatus === 'listening'} />
           </div>
         </div>
@@ -109,9 +109,9 @@ export default function HomePage() {
           <div className="max-w-5xl mx-auto text-center space-y-10">
             {/* Headlines */}
             <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000">
+              <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 px-2">
                 Voice Commands
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#CC5500] via-[#FF8A3D] to-[#E67300] mt-2 pb-2">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#CC5500] via-[#FF8A3D] to-[#E67300] mt-2 pb-2 leading-none">
                   Made Simple
                 </span>
               </h1>
@@ -132,22 +132,22 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 w-full px-4 sm:px-0 flex-wrap relative z-20">
+            {/* CTA Buttons - Fully responsive stacking */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 w-full max-w-lg mx-auto sm:max-w-none px-4 flex-wrap relative z-20">
               <Link
                 href="/docs"
-                className="group min-w-[200px] px-8 py-4 rounded-xl gradient-orange text-white font-bold text-lg hover:glow-orange transition-all text-center relative overflow-hidden shadow-lg shadow-[#CC5500]/20 flex items-center justify-center gap-2"
+                className="group w-full sm:w-auto min-w-[180px] px-8 py-4 rounded-xl gradient-orange text-white font-bold text-lg hover:glow-orange transition-all text-center relative overflow-hidden shadow-lg shadow-[#CC5500]/20 flex items-center justify-center gap-3"
               >
-                <Rocket className="w-5 h-5" />
+                <Rocket className="w-5 h-5 flex-shrink-0" />
                 <span className="relative z-10">Get Started</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
               </Link>
 
               <Link
                 href="/playground"
-                className="group min-w-[200px] px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 hover:border-[#CC5500]/50 hover:shadow-[0_0_20px_rgba(204,85,0,0.15)] transition-all text-center relative overflow-hidden backdrop-blur-sm flex items-center justify-center gap-2"
+                className="group w-full sm:w-auto min-w-[180px] px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 hover:border-[#CC5500]/50 hover:shadow-[0_0_20px_rgba(204,85,0,0.15)] transition-all text-center relative overflow-hidden backdrop-blur-sm flex items-center justify-center gap-3"
               >
-                <Terminal className="w-5 h-5 text-[#CC5500]" />
+                <Terminal className="w-5 h-5 text-[#CC5500] flex-shrink-0" />
                 <span className="relative z-10">Playground</span>
               </Link>
 
@@ -155,9 +155,9 @@ export default function HomePage() {
                 href="https://www.npmjs.com/package/jsvoice"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group min-w-[150px] px-6 py-4 rounded-xl bg-black/40 border border-white/10 text-white font-bold text-lg hover:border-[#CC5500] hover:bg-black/60 transition-all flex items-center justify-center space-x-2 relative overflow-hidden backdrop-blur-sm"
+                className="group w-full sm:w-auto min-w-[120px] px-6 py-4 rounded-xl bg-black/40 border border-white/10 text-white font-bold text-lg hover:border-[#CC5500] hover:bg-black/60 transition-all flex items-center justify-center space-x-2 relative overflow-hidden backdrop-blur-sm"
               >
-                <Package className="w-5 h-5 text-gray-400 group-hover:text-[#CC5500]" />
+                <Package className="w-5 h-5 text-gray-400 group-hover:text-[#CC5500] flex-shrink-0" />
                 <span className="text-sm font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">NPM</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
               </a>
@@ -201,27 +201,27 @@ export default function HomePage() {
             <p className="text-gray-400">Add enterprise-grade voice control to your project today.</p>
           </div>
 
-          <div className="max-w-2xl mx-auto rounded-2xl bg-[#0A0A0A] border border-white/5 p-4 shadow-2xl relative group">
+          <div className="max-w-2xl mx-auto rounded-2xl bg-[#0A0A0A] border border-white/5 p-3 sm:p-4 shadow-2xl relative group overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-[#CC5500]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none" />
-            <div className="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5 rounded-t-xl mb-4">
+            <div className="flex items-center justify-between px-3 py-2 border-b border-white/5 bg-white/5 rounded-t-xl mb-4">
               <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
               </div>
-              <span className="text-xs font-mono text-gray-500">bash</span>
+              <span className="text-[10px] sm:text-xs font-mono text-gray-500 uppercase tracking-wider">Shell</span>
             </div>
-            <div className="p-4 font-mono text-lg flex items-center justify-between gap-4">
-              <code className="text-[#CC5500]">$ {installCode}</code>
+            <div className="p-3 sm:p-4 font-mono text-base sm:text-lg flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
+              <code className="text-[#CC5500] whitespace-nowrap">$ {installCode}</code>
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(installCode);
                   toast("Copied to clipboard!");
                 }}
-                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                className="p-2 sm:p-2.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors flex-shrink-0"
                 title="Copy code"
               >
-                <Download className="w-5 h-5 text-gray-400" />
+                <Download className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
               </button>
             </div>
           </div>
