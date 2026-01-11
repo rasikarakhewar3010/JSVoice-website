@@ -513,7 +513,15 @@ const useMobileDetection = () => {
     return isMobile;
 };
 
+interface FeatureItem {
+    icon: any;
+    title: string;
+    description: string;
+    label?: string;
+}
+
 interface MagicBentoProps {
+    features?: FeatureItem[];
     textAutoHide?: boolean;
     enableStars?: boolean;
     enableSpotlight?: boolean;
@@ -528,6 +536,7 @@ interface MagicBentoProps {
 }
 
 const MagicBento: React.FC<MagicBentoProps> = ({
+    features,
     textAutoHide = false,
     enableStars = false,
     enableSpotlight = true,
@@ -543,6 +552,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
     const gridRef = useRef<HTMLDivElement>(null);
     const isMobile = useMobileDetection();
     const shouldDisableAnimations = disableAnimations || isMobile;
+
+    const itemsToDisplay = features || cardData;
 
     return (
         <>
@@ -670,7 +681,7 @@ const MagicBento: React.FC<MagicBentoProps> = ({
 
             <BentoCardGrid gridRef={gridRef as React.RefObject<HTMLDivElement>}>
                 <div className="card-responsive grid gap-4">
-                    {cardData.map((card, index) => {
+                    {itemsToDisplay.map((card, index) => {
                         const baseClassName = `card group flex flex-col justify-between relative aspect-[5/3] min-h-[180px] w-full max-w-full p-6 md:p-8 rounded-[24px] border border-white/5 font-light overflow-hidden transition-all duration-500 ease-out backdrop-blur-xl ${enableBorderGlow ? 'card--border-glow' : ''
                             }`;
 
@@ -708,7 +719,7 @@ const MagicBento: React.FC<MagicBentoProps> = ({
                                         <Icon size={24} className="text-[#CC5500] group-hover:text-white transition-colors" />
                                     </div>
                                     <div className="px-3 py-1 rounded-full bg-white/5 border border-white/5 text-[10px] uppercase tracking-wider font-semibold text-gray-400 group-hover:text-white group-hover:border-white/20 transition-all">
-                                        {card.label}
+                                        {card.label || 'Feature'}
                                     </div>
                                 </div>
 

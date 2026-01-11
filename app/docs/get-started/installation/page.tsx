@@ -1,8 +1,17 @@
-"use client"
+import type { Metadata } from 'next';
 
 import { DocsHeader, DocsSection, CodeBlock } from "@/components/docs/page-template"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+
+export const metadata: Metadata = {
+    title: "Installation Guide | JSVoice Documentation",
+    description: "Learn how to install JSVoice via NPM, Yarn, or CDN. Get started with the best JavaScript voice recognition library today.",
+    openGraph: {
+        title: "Install JSVoice - Voice Control Library",
+        description: "Step-by-step installation guide for JSVoice. Supports NPM, Yarn, and direct browser usage.",
+    }
+};
 
 export default function InstallationPage() {
     return (

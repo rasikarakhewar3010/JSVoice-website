@@ -2,15 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Github, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, Github, Search, ChevronDown, Zap, Ghost, Sun, Moon, Settings, Check } from 'lucide-react';
 import { SearchDialog } from '@/components/ui/search-dialog';
+import { useGlobalVoice } from '@/components/providers/global-voice-provider';
 
 export function Navbar() {
+    const { matrixMode, setMatrixMode, ghostMode, setGhostMode } = useGlobalVoice();
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -44,20 +48,16 @@ export function Navbar() {
                 <div className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2 group">
-                        <div className="w-10 h-10 rounded-lg gradient-orange flex items-center justify-center glow-orange group-hover:glow-orange-lg transition-all">
-                            <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                className="w-6 h-6"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"
-                                    fill="white"
-                                />
-                            </svg>
+                        <div className="relative w-10 h-10 group-hover:scale-110 transition-transform duration-300">
+                            <Image
+                                src="/logo.png"
+                                alt="JSVoice Logo"
+                                fill
+                                className="object-contain drop-shadow-[0_0_8px_rgba(204,85,0,0.5)]"
+                                priority
+                            />
                         </div>
-                        <span className="text-xl font-bold text-white hidden sm:block">
+                        <span className="text-xl font-bold text-white hidden sm:block tracking-tight">
                             JSVoice
                         </span>
                     </Link>
@@ -93,6 +93,76 @@ export function Navbar() {
 
                     {/* Right Side Actions */}
                     <div className="flex items-center space-x-4">
+                        {/* Unified System Settings Dropdown */}
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                                className={`p-2.5 rounded-full border transition-all duration-300 ${isSettingsOpen ? 'bg-[#CC5500]/20 border-[#CC5500] text-[#CC5500] glow-orange' : 'bg-[#1F1F1F] border-[#CC5500]/20 text-gray-400 hover:border-[#CC5500]/50 hover:text-white'}`}
+                                title="System Settings & Modes"
+                            >
+                                <Settings className="w-5 h-5" />
+                            </button>
+
+                            {isSettingsOpen && (
+                                <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-[#141414] border border-[#CC5500]/20 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+                                    <div className="px-4 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-white/5 mb-1">System Control</div>
+
+                                    {/* Appearance / Theme Row */}
+                                    <button
+                                        onClick={() => { setMatrixMode(!matrixMode); setIsSettingsOpen(false); }}
+                                        className="w-full flex items-center justify-between px-3 py-3 rounded-xl hover:bg-white/5 transition-all group"
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <div className={`p-2 rounded-lg ${matrixMode ? 'bg-yellow-500/10' : 'bg-blue-500/10'}`}>
+                                                {matrixMode ? <Sun className="w-4 h-4 text-yellow-500" /> : <Moon className="w-4 h-4 text-blue-400" />}
+                                            </div>
+                                            <div className="text-left">
+                                                <div className="text-sm font-medium text-white">{matrixMode ? 'Light Mode' : 'Dark Mode'}</div>
+                                                <div className="text-[10px] text-gray-500">Global sight preference</div>
+                                            </div>
+                                        </div>
+                                        <div className={`w-8 h-4 rounded-full relative transition-colors ${matrixMode ? 'bg-[#CC5500]' : 'bg-gray-700'}`}>
+                                            <div className={`absolute top-1 w-2 h-2 rounded-full bg-white transition-all ${matrixMode ? 'left-5' : 'left-1'}`} />
+                                        </div>
+                                    </button>
+
+                                    {/* Ghost Mode Row */}
+                                    <button
+                                        onClick={() => { setGhostMode(!ghostMode); setIsSettingsOpen(false); }}
+                                        className="w-full flex items-center justify-between px-3 py-3 rounded-xl hover:bg-white/5 transition-all group"
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <div className={`p-2 rounded-lg ${ghostMode ? 'bg-[#CC5500]/10' : 'bg-white/5'}`}>
+                                                <Ghost className={`w-4 h-4 ${ghostMode ? 'text-[#CC5500]' : 'text-gray-400'}`} />
+                                            </div>
+                                            <div className="text-left">
+                                                <div className="text-sm font-medium text-white">Ghost Mode</div>
+                                                <div className="text-[10px] text-gray-500">UI transparency shift</div>
+                                            </div>
+                                        </div>
+                                        {ghostMode && <Check className="w-4 h-4 text-[#CC5500]" />}
+                                    </button>
+
+                                    {/* Matrix Mode Row */}
+                                    <button
+                                        onClick={() => { setMatrixMode(!matrixMode); setIsSettingsOpen(false); }}
+                                        className="w-full flex items-center justify-between px-3 py-3 rounded-xl hover:bg-white/5 transition-all group"
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <div className={`p-2 rounded-lg ${matrixMode ? 'bg-[#CC5500]/10' : 'bg-white/5'}`}>
+                                                <Zap className={`w-4 h-4 ${matrixMode ? 'text-[#CC5500]' : 'text-gray-400'}`} />
+                                            </div>
+                                            <div className="text-left">
+                                                <div className="text-sm font-medium text-white">Matrix Mode</div>
+                                                <div className="text-[10px] text-gray-500">Reality inversion</div>
+                                            </div>
+                                        </div>
+                                        {matrixMode && <Check className="w-4 h-4 text-[#CC5500]" />}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
                         {/* Search Button - Only on Documentation Page */}
                         {pathname.startsWith('/docs') && (
                             <button
@@ -123,7 +193,7 @@ export function Navbar() {
                             className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-lg bg-[#1F1F1F] border border-[#CC5500]/20 text-white hover:border-[#CC5500] hover:glow-orange hover:scale-105 transition-all duration-200"
                         >
                             <Github className="w-4 h-4" />
-                            <span className="text-sm">GitHub</span>
+                            <span className="text-sm font-medium">GitHub</span>
                         </a>
 
                         {/* Get Started Button - Hide on Documentation Page */}
@@ -179,6 +249,25 @@ export function Navbar() {
                                     </Link>
                                 )
                             })}
+
+                            {/* Mobile Utility Toggles */}
+                            <div className="flex items-center space-x-2 p-2 pt-4 border-t border-[#CC5500]/10">
+                                <button
+                                    onClick={() => setMatrixMode(!matrixMode)}
+                                    className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all duration-300 ${matrixMode ? 'bg-[#CC5500]/20 border-[#CC5500] text-[#CC5500]' : 'bg-[#1F1F1F] border-white/5 text-gray-400'}`}
+                                >
+                                    <Zap className="w-4 h-4" />
+                                    <span className="text-xs font-medium">Matrix</span>
+                                </button>
+                                <button
+                                    onClick={() => setGhostMode(!ghostMode)}
+                                    className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all duration-300 ${ghostMode ? 'bg-[#CC5500]/20 border-[#CC5500] text-[#CC5500]' : 'bg-[#1F1F1F] border-white/5 text-gray-400'}`}
+                                >
+                                    <Ghost className="w-4 h-4" />
+                                    <span className="text-xs font-medium">Ghost</span>
+                                </button>
+                            </div>
+
                             <div className="pt-4 border-t border-[#CC5500]/20">
                                 <a
                                     href="https://github.com/VoiceUI-js/VoiceUI"

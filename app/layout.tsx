@@ -1,71 +1,68 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/components/providers/lenis-provider";
 import { SplashCursor } from "@/components/ui/splash-cursor";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ToastProvider } from "@/components/ui/toast";
+import { GlobalVoiceProvider } from '@/components/providers/global-voice-provider';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
+
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jsvoice.dev"),
   title: {
-    default: "JSVoice - Voice Commands Made Simple",
+    default: "JSVoice - Advanced Voice Control for Web",
     template: "%s | JSVoice",
   },
   description:
-    "Modern JavaScript voice command library. Zero dependencies, TypeScript ready, production proven. Build voice-enabled applications with ease.",
+    "The most advanced JavaScript voice command library. Zero dependencies, 100% privacy-focused, TypeScript ready, and production proven. Build voice-enabled applications with ease.",
   keywords: [
     "voice commands",
     "speech recognition",
-    "javascript",
-    "typescript",
-    "voice control",
-    "web speech api",
-    "voice ui",
+    "javascript voice library",
+    "typescript voice control",
+    "web speech api wrapper",
+    "voice ui components",
     "jsvoice",
-    "jaya's voice",
-    "java voice",
+    "react voice control",
+    "nextjs voice commands",
     "speech to text javascript",
-    "text to speech javascript",
+    "voice automation web",
+    "accessibility voice control",
   ],
-  authors: [{ name: "JSVoice Team" }],
+  authors: [{ name: "JSVoice Team", url: "https://jsvoice.dev" }],
   creator: "JSVoice Team",
   publisher: "JSVoice",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://jsvoice.dev",
-    title: "JSVoice - Voice Commands Made Simple",
+    title: "JSVoice - Advanced Voice Control for Web",
     description:
-      "Modern JavaScript voice command library. Zero dependencies, TypeScript ready, production proven.",
+      "Modern, zero-dependency JavaScript voice command library. Create immersive voice-controlled web experiences in minutes.",
     siteName: "JSVoice",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "JSVoice - Voice Commands Made Simple",
+        alt: "JSVoice - The Future of Web Voice Control",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JSVoice - Voice Commands Made Simple",
+    title: "JSVoice - Advanced Voice Control for Web",
     description:
-      "Modern JavaScript voice command library. Zero dependencies, TypeScript ready, production proven.",
+      "Modern, zero-dependency JavaScript voice command library. Create immersive voice-controlled web experiences in minutes.",
     images: ["/og-image.png"],
     creator: "@jsvoice",
   },
@@ -80,12 +77,23 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  alternates: {
+    canonical: "https://jsvoice.dev",
+  },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/logo.png", type: "image/png" },
+    ],
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
+  verification: {
+    google: "google-site-verification-code", // Replace with actual code if available
+  },
+  category: "technology",
+
 };
 
 export default function RootLayout({
@@ -93,17 +101,44 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSVoice",
+    "image": "https://jsvoice.dev/logo.png",
+    "description": "Modern JavaScript voice command library.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "JSVoice Team",
+      "url": "https://jsvoice.dev",
+      "logo": "https://jsvoice.dev/logo.png"
+    }
+  };
+
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${outfit.variable} antialiased`}
         suppressHydrationWarning
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <LenisProvider>
           <ToastProvider>
-            <SplashCursor />
-            <Navbar />
-            {children}
+            <GlobalVoiceProvider>
+              <SplashCursor />
+              <Navbar />
+              {children}
+            </GlobalVoiceProvider>
             <Footer />
           </ToastProvider>
         </LenisProvider>

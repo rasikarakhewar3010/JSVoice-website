@@ -1,8 +1,17 @@
-"use client"
+import type { Metadata } from 'next';
 
 import { DocsHeader, DocsSection, CodeBlock } from "@/components/docs/page-template"
 import Link from "next/link"
 import { ArrowRight, Mic, Speaker, Sparkles } from "lucide-react"
+
+export const metadata: Metadata = {
+    title: "Introduction to Voice Control | JSVoice",
+    description: "Get started with JSVoice - the zero-dependency JavaScript voice command library. Learn about voice recognition, speech synthesis, and natural language processing features.",
+    openGraph: {
+        title: "Introduction to Voice Control | JSVoice",
+        description: "Zero-dependency voice control for web apps. Add voice commands to React, Vue, or Vanilla JS in minutes.",
+    }
+};
 
 export default function IntroductionPage() {
     return (

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Github, Twitter, MessageCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -26,10 +27,14 @@ export function Footer({ className, forceVisible = false }: FooterProps) {
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                    {/* Brand */}
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#CC5500] to-[#E67300] flex items-center justify-center shadow-[0_0_20px_rgba(204,85,0,0.3)]">
-                            <span className="font-bold text-white text-lg">JS</span>
+                        <div className="relative w-10 h-10 shadow-[0_0_20px_rgba(204,85,0,0.3)] rounded-xl overflow-hidden">
+                            <Image
+                                src="/logo.png"
+                                alt="JSVoice Logo"
+                                fill
+                                className="object-contain"
+                            />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-bold text-white tracking-tight">JSVoice</span>

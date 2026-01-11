@@ -1,8 +1,17 @@
-"use client"
+import type { Metadata } from 'next';
 
 import { DocsHeader, DocsSection, CodeBlock } from "@/components/docs/page-template"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+
+export const metadata: Metadata = {
+    title: "Wake Word Detection | JSVoice Documentation",
+    description: "Implement hands-free voice activation like 'Hey Computer'. Learn how to configure custom wake words and timeout settings.",
+    openGraph: {
+        title: "Hands-free Wake Word Detection | JSVoice",
+        description: "Add 'Hey Siri' style activation to your web apps with JSVoice. Fully customizable wake words.",
+    }
+};
 
 export default function WakeWordPage() {
     return (

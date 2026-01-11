@@ -4,100 +4,47 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { Mic, MicOff } from "lucide-react"
 import { menuGroups } from "@/lib/docs-config"
-/* @ts-ignore */
-import JSVoice from "jsvoice"
 import { cn } from "@/lib/utils"
+import { useGlobalVoice } from "@/components/providers/global-voice-provider"
 
 export default function DocsVoiceProvider({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const { voice, voiceStatus, lastCommand, toggleListening } = useGlobalVoice()
     const router = useRouter()
-    const [isListening, setIsListening] = React.useState(false)
-    const [voiceInstance, setVoiceInstance] = React.useState<any>(null)
-    const [lastCommand, setLastCommand] = React.useState<string | null>(null)
 
     React.useEffect(() => {
-        // Initialize JSVoice
-        const voice = new JSVoice({
-            continuous: true,
-            interimResults: false,
-            lang: 'en-US',
-            onSpeechStart: () => setIsListening(true),
-            onSpeechEnd: () => setIsListening(false),
-            onCommandRecognized: (phrase: string) => {
-                setLastCommand(phrase)
-                console.log("Command recognized:", phrase)
-                // Clear the feedback after 2 seconds
-                setTimeout(() => setLastCommand(null), 2000)
-            },
-            onError: (err: any) => console.error("Voice Error:", err)
-        })
+        if (!voice) return;
 
-        setVoiceInstance(voice)
-
-        // Register Navigation Commands
+        // Register Navigation Commands for Docs
         menuGroups.forEach(group => {
             group.items.forEach(item => {
-                // Command: "Go to Installation", "Open Installation"
                 const phrase = item.title.toLowerCase()
 
                 voice.addCommand(`go to ${phrase}`, () => {
-                    router.push(item.href)
+                    router.push(item.href);
                 })
 
                 voice.addCommand(`open ${phrase}`, () => {
-                    router.push(item.href)
+                    router.push(item.href);
                 })
             })
         })
 
-        // Core Navigation
-        voice.addCommand("go home", () => router.push("/"))
-        voice.addCommand("go to home", () => router.push("/"))
-
-        // Scrolling (built-in usually, but adding explicit just in case or for feedback)
-        // JSVoice usually handles basic scrolling if enabled, but let's be explicit if needed or rely on defaults.
-        // Assuming JSVoice default behavior includes scrolling if configured, or we add manual helpers.
-
-        return () => {
-            if (voice) {
-                voice.stop()
-            }
-        }
-    }, [router])
-
-    const toggleVoice = () => {
-        if (voiceInstance) {
-            voiceInstance.toggle()
-        }
-    }
+        // We don't need a cleanup that stops the voice here, 
+        // because the voice is global. We just leave the commands there
+        // or we could remove them if we wanted to be perfectly clean.
+        // But for a demo, keeping them is fine as long as they don't clash.
+    }, [voice, router])
 
     return (
         <>
-            {/* Status Indicator */}
-            <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2 pointer-events-none">
-                {lastCommand && (
-                    <div className="bg-black/90 text-white px-4 py-2 rounded-lg border border-[#CC5500]/50 shadow-lg animate-in slide-in-from-right-10 fade-in duration-300">
-                        <span className="text-[#CC5500] font-bold mr-2">Command:</span>
-                        {lastCommand}
-                    </div>
-                )}
-
-                <button
-                    onClick={toggleVoice}
-                    className={cn(
-                        "pointer-events-auto p-4 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2",
-                        isListening
-                            ? "bg-[#CC5500] text-white shadow-[0_0_20px_rgba(204,85,0,0.5)] scale-110"
-                            : "bg-[#1A1A1A] text-gray-400 hover:text-white border border-white/10"
-                    )}
-                >
-                    {isListening ? <Mic className="w-5 h-5 animate-pulse" /> : <MicOff className="w-5 h-5" />}
-                </button>
-            </div>
-
+            {/* We don't need a separate status indicator here if we have a global one, 
+                but we can keep a subtle one or just rely on the homepage global one.
+                Actually, the user said 'implement everywhere', so a consistent global indicator is better.
+                I'll remove the local indicator to avoid clutter. */}
             {children}
         </>
     )
