@@ -104,13 +104,13 @@ voice.addCommand('matrix mode', () => {
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-24 flex-grow flex flex-col relative z-10">
                 {/* Header Section */}
-                <div className="flex flex-col lg:flex-row items-end justify-between mb-12 gap-8">
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-12 relative z-10">
                     <div className="space-y-4 max-w-2xl">
-                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#CC5500]/10 border border-[#CC5500]/20 text-[#CC5500] text-[10px] font-bold uppercase tracking-widest w-fit">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#CC5500]/10 border border-[#CC5500]/20 text-[#CC5500] text-[10px] font-black uppercase tracking-widest">
                             <Radio className="w-3 h-3 animate-pulse" />
                             <span>Real-time Voice Node</span>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
+                        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight">
                             Voice <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#CC5500] to-[#FF8D3D]">Lab</span>
                         </h1>
                         <p className="text-lg text-gray-400 leading-relaxed font-light">
@@ -119,7 +119,7 @@ voice.addCommand('matrix mode', () => {
                     </div>
 
                     <div className="flex gap-4 w-full lg:w-auto">
-                        <div className="flex-1 lg:w-64 p-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl group hover:border-[#CC5500]/30 transition-all duration-500">
+                        <div className="w-full lg:w-64 p-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl group hover:border-[#CC5500]/30 transition-all duration-500">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-2">
                                     <Trophy className="w-4 h-4 text-yellow-500" />
@@ -158,17 +158,17 @@ voice.addCommand('matrix mode', () => {
                                         <div className="text-xs font-mono text-gray-400">voice-controller.ts</div>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                                     <select
                                         value={selectedPreset}
                                         onChange={(e) => setSelectedPreset(e.target.value)}
-                                        className="bg-white/5 px-3 py-1.5 rounded-lg text-[10px] text-gray-300 font-bold uppercase tracking-wider focus:outline-none cursor-pointer hover:bg-white/10 transition-all border border-white/5"
+                                        className="bg-white/5 px-3 py-1.5 rounded-lg text-[10px] text-gray-300 font-bold uppercase tracking-wider focus:outline-none cursor-pointer hover:bg-white/10 transition-all border border-white/5 w-full sm:w-auto"
                                     >
                                         <option value="basic">Standard API</option>
                                         <option value="advanced">Patterns</option>
                                         <option value="effects">Global FX</option>
                                     </select>
-                                    <button onClick={runCode} className="px-4 py-2 rounded-xl bg-[#CC5500] text-white text-xs font-black uppercase tracking-widest hover:bg-[#E67300] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-[#CC5500]/20">
+                                    <button onClick={runCode} className="w-full sm:w-auto px-4 py-2 rounded-xl bg-[#CC5500] text-white text-xs font-black uppercase tracking-widest hover:bg-[#E67300] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#CC5500]/20">
                                         <Zap className="w-3 h-3 fill-current" />
                                         Commit
                                     </button>
@@ -209,8 +209,8 @@ voice.addCommand('matrix mode', () => {
                                             [{isMounted ? new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '--:--:--'}]
                                         </span>
                                         <span className={`flex items-center gap-2 ${log.type === 'voice' ? 'text-[#CC5500] font-bold' :
-                                                log.type === 'system' ? 'text-blue-400' :
-                                                    log.type === 'transcript' ? 'text-gray-500 italic' : 'text-gray-400'
+                                            log.type === 'system' ? 'text-blue-400' :
+                                                log.type === 'transcript' ? 'text-gray-500 italic' : 'text-gray-400'
                                             }`}>
                                             <span className="px-1.5 py-0.5 rounded bg-white/5 text-[9px] uppercase tracking-tighter opacity-50">{log.type}</span>
                                             {log.msg}
